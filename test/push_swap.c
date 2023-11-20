@@ -215,16 +215,20 @@ void swap_three(stack_p **stack)
         printf("rra \n");
     }
 }
-int get_last_element(stack_p *stack)
+stack_p * get_last_element(stack_p *stack)
 {
     stack_p *temp = stack;
-    int last = 0;
+    stack_p *last = NULL;
     while(temp != NULL)
     {
-        last = temp->data;
+        last = temp;
         temp = temp->link;
     }
     return last;
+}
+stack_p * get_first_element(stack_p *stack)
+{
+    return stack->link;
 }
 int count_stack_content(stack_p *stack)
 {
@@ -429,9 +433,9 @@ void pushToA(stack_p **A, stack_p *B)
     stack_p *A = *stack;
     stack_p *B = NULL;
     int i;
-    printf("top = %d ", pop_and_return(&A));
-    sa(A);
-    printf("top = %d ", pop_and_return(&A));
+    //printf("top = %d ", pop_and_return(&A));
+    //sa(A);
+    //printf("top = %d ", pop_and_return(&A));
 if(count_stack_content(A) > 3)
 {
      i = -1;
@@ -486,7 +490,37 @@ void push_ten(stack_p **stack)
     printf("This B before \n");
     display(B);
 }
-
+stack_p *Get_nth_node(stack_p *stack, int i)
+{
+    stack_p *node = stack;
+    int count = 0;
+    while(node && node!= NULL)
+    {
+        if(count == i )
+            return node->link;
+        count ++;
+        node = node->link;
+    }
+    return NULL;
+}
+int Get_data_nth(stack_p *stack, int index)
+{
+    if(index <= count_stack_content(stack))
+    {
+        stack_p * node = stack;
+        int i = 0;
+        while(node != NULL)
+        {
+            if(i == index)
+                return (node->data);
+            i++;
+            node = node->link;
+        }
+        return 0;
+        
+    }
+    return 0;
+}
 int main(int av, char *argv[])
 {
     int i = 1;
@@ -500,27 +534,15 @@ int main(int av, char *argv[])
             stack_A = pushA(stack_A, atoi(argv[i]));
             i++;
         }
-        if(av == 3)
-        {
-            if(Is_sorted(stack_A))
-            {
-                sa(stack_A);
-                printf("sa\n");
-            }
-         //display(stack_A);
-            
-        }
-        // else if(av = 4)
-        // {
-            // swap_three(&stack_A);
-        //   display(stack_A);
-        // }
-        else if(av > 3)
-        {
-            //printf("I am here");
-            sort_six(&stack_A);
-            //display(stack_A);
-        }
+       //quickSort(&stack_A);
+     
+       stack_p * last = get_last_element(stack_A);
+         printf("Here i am\n");
+       stack_p *first = stack_A;
+       printf("This is the value of the start = %d\n", first->data);
+       quick_sort(stack_A, first, last);
+       //display(stack_A);
+       display(stack_A);
 
     }
 
